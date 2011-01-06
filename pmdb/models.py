@@ -31,4 +31,4 @@ class Part(models.Model):
     Quantity = models.CharField(max_length=30)
     Description = models.TextField()
     Unit = models.ForeignKey(Unit,null=True, blank=True)
-    Amount = models.CharField(max_length=10)
+    Amount = models.CharField(max_length=10,null=True,blank=True)

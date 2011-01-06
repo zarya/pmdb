@@ -8,6 +8,10 @@ from django.contrib import admin
 
 class PartAdmin(admin.ModelAdmin):
     list_display = ('Model', 'Quantity', 'Housing', 'Manufacture')
+    fieldsets = [
+        (None,          {'fields': ['Model','Quantity','Description','Category']}),
+        ('Details',     {'fields': ['Housing','Amount','Unit']}),
+    ]
 
 class HousingAdmin(admin.ModelAdmin):
     list_display = ['Housing']
