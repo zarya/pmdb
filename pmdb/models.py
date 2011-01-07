@@ -1,8 +1,10 @@
 from django.db import models
 from django.core.files.storage import FileSystemStorage
+from settings import *
+
 
 # Create your models here.
-fs = FileSystemStorage(location='/home/zarya/source/z_gigafreak/file')
+fs = FileSystemStorage(location=STORAGE_PATH + 'pmdb/')
 
 class Manufacturer(models.Model):
     Manufacturer = models.CharField(max_length=200)
