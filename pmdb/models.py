@@ -1,6 +1,8 @@
 from django.db import models
+from django.core.files.storage import FileSystemStorage
 
 # Create your models here.
+fs = FileSystemStorage(location='/home/zarya/source/z_gigafreak/file')
 
 class Manufacturer(models.Model):
     Manufacturer = models.CharField(max_length=200)
@@ -32,3 +34,4 @@ class Part(models.Model):
     Description = models.TextField()
     Unit = models.ForeignKey(Unit,null=True, blank=True)
     Amount = models.CharField(max_length=10,null=True,blank=True)
+    Datasheet  = models.FileField(storage=fs, upload_to='%Y/%m', null=True, blank=True)
