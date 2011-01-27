@@ -3,8 +3,15 @@ from pmdb.models import Housing
 from pmdb.models import Manufacturer
 from pmdb.models import Category 
 from pmdb.models import Unit
+from pmdb.models import Project 
+from pmdb.models import PartChange 
 
 from django.contrib import admin
+
+class PartChange(admin.TabularInline):
+    model = PartChange
+    extra = 1
+    ordering = ['Date']
 
 class PartAdmin(admin.ModelAdmin):
     list_display = ('Model', 'Quantity', 'Housing', 'Manufacture')
@@ -13,14 +20,22 @@ class PartAdmin(admin.ModelAdmin):
         (None,          {'fields': ['Model','Quantity','Description','Category']}),
         ('Details',     {'fields': ['Manufacture','Housing','Amount','Unit','Datasheet']}),
     ]
+    inlines = [
+        PartChange
+    ]
 
 class HousingAdmin(admin.ModelAdmin):
     list_display = ['Housing']
     ordering = ['Housing']
+
+class ProjectAdmin(admin.ModelAdmin):
+    inlines = [
+        PartChange
+    ]
 
 admin.site.register(Part, PartAdmin)
 admin.site.register(Manufacturer)
 admin.site.register(Category)
 admin.site.register(Unit)
 admin.site.register(Housing, HousingAdmin)
-
+admin.site.register(Project, ProjectAdmin)
