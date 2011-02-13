@@ -59,6 +59,9 @@ class PartChange(models.Model):
     Project = models.ForeignKey(Project, null=True, blank=True)
     Supplier = models.CharField(max_length=150, null=True, blank=True)
     Ordernr = models.CharField(max_length=150, null=True, blank=True)
-    Description = models.TextField()
+    Description = models.TextField(null=True, blank=True)
     def __unicode__(self):
-        return self.Ordernr 
+        return self.Ordernr
+
+    class Meta:
+        ordering = ('Date',)
