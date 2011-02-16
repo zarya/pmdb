@@ -12,6 +12,7 @@ class PartChange(admin.TabularInline):
     model = PartChange
     extra = 1
     ordering = ['Date']
+    can_delete = True
 
 class PartAdmin(admin.ModelAdmin):
     list_display = ('Model', 'Quantity', 'Housing', 'Manufacture')

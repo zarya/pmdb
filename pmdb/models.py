@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.files.storage import FileSystemStorage
+from django.db.models import Avg, Max, Min, Count, Sum
+from django.db.models.signals import post_save
 from settings import *
 
 
@@ -32,7 +34,6 @@ class Project(models.Model):
     Description = models.TextField()
     def __unicode__(self):
         return self.Name
-    
 
 class Part(models.Model):
     Model = models.CharField(max_length=200)
@@ -63,5 +64,46 @@ class PartChange(models.Model):
     def __unicode__(self):
         return self.Ordernr
 
+    def save(self):
+        super(PartChange, self).save()
+        parts_out = PartChange.objects.filter(Direction='OUT',Part=self.Part_id).aggregate(parts=Sum('Quantity'))
+        parts_in = PartChange.objects.filter(Direction='IN',Part=self.Part_id).aggregate(parts=Sum('Quantity'))
+        try:
+            float(parts_in['parts'])
+            parts_in = parts_in['parts']
+        except:
+            parts_in = 0
+        try:
+            float(parts_out['parts'])
+            parts_out = parts_out['parts']
+        except:
+            parts_out = 0
+
+        total = parts_in - parts_out
+        t = Part.objects.get(pk=self.Part_id)
+        t.Quantity = int(total)
+        t.save()
+
+    def delete(self):
+        super(PartChange, self).delete()
+        parts_out = PartChange.objects.filter(Direction='OUT',Part=self.Part_id).aggregate(parts=Sum('Quantity'))
+        parts_in = PartChange.objects.filter(Direction='IN',Part=self.Part_id).aggregate(parts=Sum('Quantity'))
+        try:
+            float(parts_in['parts'])
+            parts_in = parts_in['parts']
+        except:
+            parts_in = 0
+        try:
+            float(parts_out['parts'])
+            parts_out = parts_out['parts']
+        except:
+            parts_out = 0
+
+        total = parts_in - parts_out
+        t = Part.objects.get(pk=self.Part_id)
+        t.Quantity = int(total)
+        t.save()
+
     class Meta:
         ordering = ('Date',)
+    
