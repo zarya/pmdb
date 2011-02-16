@@ -48,6 +48,25 @@ class Part(models.Model):
     def __unicode__(self):
         return self.Model
 
+def update_part(self):
+    parts_out = PartChange.objects.filter(Direction='OUT',Part=self.Part_id).aggregate(parts=Sum('Quantity'))
+    parts_in = PartChange.objects.filter(Direction='IN',Part=self.Part_id).aggregate(parts=Sum('Quantity'))
+    try:
+        float(parts_in['parts'])
+        parts_in = parts_in['parts']
+    except:
+        parts_in = 0
+    try:
+        float(parts_out['parts'])
+        parts_out = parts_out['parts']
+    except:
+        parts_out = 0
+
+    total = parts_in - parts_out
+    t = Part.objects.get(pk=self.Part_id)
+    t.Quantity = int(total)
+    t.save()
+
 class PartChange(models.Model):
     MAYBECHOICE = (
         ('IN', 'In'),
@@ -66,43 +85,11 @@ class PartChange(models.Model):
 
     def save(self):
         super(PartChange, self).save()
-        parts_out = PartChange.objects.filter(Direction='OUT',Part=self.Part_id).aggregate(parts=Sum('Quantity'))
-        parts_in = PartChange.objects.filter(Direction='IN',Part=self.Part_id).aggregate(parts=Sum('Quantity'))
-        try:
-            float(parts_in['parts'])
-            parts_in = parts_in['parts']
-        except:
-            parts_in = 0
-        try:
-            float(parts_out['parts'])
-            parts_out = parts_out['parts']
-        except:
-            parts_out = 0
-
-        total = parts_in - parts_out
-        t = Part.objects.get(pk=self.Part_id)
-        t.Quantity = int(total)
-        t.save()
+        update_part(self)
 
     def delete(self):
         super(PartChange, self).delete()
-        parts_out = PartChange.objects.filter(Direction='OUT',Part=self.Part_id).aggregate(parts=Sum('Quantity'))
-        parts_in = PartChange.objects.filter(Direction='IN',Part=self.Part_id).aggregate(parts=Sum('Quantity'))
-        try:
-            float(parts_in['parts'])
-            parts_in = parts_in['parts']
-        except:
-            parts_in = 0
-        try:
-            float(parts_out['parts'])
-            parts_out = parts_out['parts']
-        except:
-            parts_out = 0
-
-        total = parts_in - parts_out
-        t = Part.objects.get(pk=self.Part_id)
-        t.Quantity = int(total)
-        t.save()
+        update_part(self)
 
     class Meta:
         ordering = ('Date',)
