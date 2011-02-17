@@ -85,7 +85,8 @@ class PartChange(models.Model):
 
     def save(self):
         super(PartChange, self).save()
-        update_part(self)
+        if self.Quantity != self._old_Quantity:
+            update_part(self)
 
     def delete(self):
         super(PartChange, self).delete()
