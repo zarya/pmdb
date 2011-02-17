@@ -32,6 +32,12 @@ class Unit(models.Model):
 class Project(models.Model):
     Name = models.CharField(max_length=200)
     Description = models.TextField()
+
+    def get_part_list(self):
+        return """<a href="/admin/pmdb/project/%s/report/">Part list</a>""" % (self.pk)
+
+    get_part_list.allow_tags = True
+
     def __unicode__(self):
         return self.Name
 
