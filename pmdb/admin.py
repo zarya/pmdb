@@ -35,6 +35,7 @@ class HousingAdmin(admin.ModelAdmin):
     ordering = ['Housing']
 
 class ProjectAdmin(admin.ModelAdmin):
+    list_display = ['Name','get_part_list']
     inlines = [
         PartChange
     ]

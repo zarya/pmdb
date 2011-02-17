@@ -13,6 +13,8 @@ urlpatterns = patterns('',
         'pmdb.views.qr'),
     (r'^part/(?P<part_id>\d+)/admin/$',
         'pmdb.views.admin'),
+    (r'^admin/pmdb/project/(?P<Project_id>\d+)/report/$', 
+        'pmdb.admin_views.project_report'),
     (r'^admin/(.*)',
         admin.site.root),
 )

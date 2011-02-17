@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}List of parts used/needed for this project{% endblock %}
+
+{% block content %}
+<div id="content-main">
+  <h1>List of parts used/needed for this project:</h1>
+  <table border="0">
+    <tr><th>Part</th><th>Quantity</th></tr>
+  {% for partchange in part_list %}
+    <tr>
+        <td>{{ partchange.Part }}</td><td>{{ partchange.Quantity }}</td>
+    </tr>
+  {% endfor %}
+  </table>
+</div>
+{% endblock %}
