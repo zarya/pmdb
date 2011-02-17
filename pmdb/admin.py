@@ -19,7 +19,7 @@ class PartChange(admin.TabularInline):
     ]
 
 class PartAdmin(admin.ModelAdmin):
-    list_display = ('Model', 'Quantity', 'Housing', 'Manufacture')
+    list_display = ('Model', 'Quantity', 'Housing', 'Manufacture', 'sticker')
     search_fields = ['Model']
     fieldsets = [
         (None,          {'fields': ['Model','Quantity','Description','Category']}),

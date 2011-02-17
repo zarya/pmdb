@@ -17,7 +17,7 @@ def index(request):
 
 def qr(request,part_id):
     qr = QRCode(3, QRErrorCorrectLevel.L)
-    qr.addData("https://z.gigafreak.net/part/%s/admin" % part_id)
+    qr.addData("https://z.gigafreak.net/admin/pmdb/part/%s/" % part_id)
     qr.make()
 
     im = qr.makeImage()

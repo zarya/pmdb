@@ -11,3 +11,10 @@ def project_report(request,Project_id):
     )
 project_report = staff_member_required(project_report)
 
+def part_sticker(request,Part_id):
+    return render_to_response(
+        "pmdb/admin/part_sticker.html",
+        {'part' : Part.objects.get(pk=Part_id)},
+        RequestContext(request, {}),
+    )
+part_sticker = staff_member_required(part_sticker)

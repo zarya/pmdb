@@ -51,8 +51,14 @@ class Part(models.Model):
     Unit = models.ForeignKey(Unit,null=True, blank=True)
     Amount = models.CharField(max_length=10,null=True,blank=True)
     Datasheet  = models.FileField(storage=fs, upload_to='%Y/%m', null=True, blank=True)
+
     def __unicode__(self):
         return self.Model
+    
+    def sticker(self):
+        return """<a href="/admin/pmdb/part/%s/sticker/">Sticker<a>""" % (self.pk)
+
+    sticker.allow_tags = True
 
 def update_part(self):
     parts_out = PartChange.objects.filter(Direction='OUT',Part=self.Part_id).aggregate(parts=Sum('Quantity'))
