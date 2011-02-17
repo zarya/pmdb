@@ -13,6 +13,10 @@ class PartChange(admin.TabularInline):
     extra = 1
     ordering = ['Date']
     can_delete = True
+    fieldsets = [ 
+        (None, {'fields': ['Direction','Quantity', 'Project']}),
+        (None, {'fields': ['Supplier','Ordernr', 'Description']}),
+    ]
 
 class PartAdmin(admin.ModelAdmin):
     list_display = ('Model', 'Quantity', 'Housing', 'Manufacture')
@@ -21,6 +25,7 @@ class PartAdmin(admin.ModelAdmin):
         (None,          {'fields': ['Model','Quantity','Description','Category']}),
         ('Details',     {'fields': ['Manufacture','Housing','Amount','Unit','Datasheet']}),
     ]
+    readonly_fields = [ 'Quantity' ]
     inlines = [
         PartChange
     ]
