@@ -34,7 +34,7 @@ class Project(models.Model):
     Description = models.TextField()
 
     def get_part_list(self):
-        return """<a href="/admin/pmdb/project/%s/report/">Part list</a>""" % (self.pk)
+        return """<a target="_blank" href="/admin/pmdb/project/%s/report/">Part list</a>""" % (self.pk)
 
     get_part_list.allow_tags = True
 
@@ -56,7 +56,7 @@ class Part(models.Model):
         return self.Model
     
     def sticker(self):
-        return """<a href="/admin/pmdb/part/%s/sticker/">Sticker<a>""" % (self.pk)
+        return """<a target="_blank" href="/admin/pmdb/part/%s/sticker/">Sticker<a>""" % (self.pk)
 
     sticker.allow_tags = True
 
@@ -97,7 +97,10 @@ class PartChange(models.Model):
 
     def save(self):
         super(PartChange, self).save()
-        if self.Quantity != self._old_Quantity:
+        try:
+            if self.Quantity != self._old_Quantity:
+                update_part(self)
+        except:
             update_part(self)
 
     def delete(self):
