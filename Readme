@@ -1,0 +1,12 @@
+Installation:
+
+    1. Change all the settings in settings.py to your needs (you find a example in settings.py_dist)
+    2. recreate the symlink template/admin to /usr/local/lib/python2.6/dist-packages/Django-1.2.4-py2.6.egg/django/contrib/admin/templates/admin
+       or to where your django admin template is
+    3. run python manage.py syncdb to create the database tables and admin username and password
+    4. see http://docs.djangoproject.com/en/dev/howto/deployment/modwsgi/ for webserver intergration
+
+Wishlist:
+    Add implementation for barcodes to be used for administration
+    Add multi user support to make it usefull for lager deployments
+    Add order list to keep track of what needs to be orderd
